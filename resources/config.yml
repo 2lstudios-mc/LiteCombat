@@ -1,0 +1,26 @@
+# Various settings for weapons
+weapons:
+  enabled: true
+
+  old-damage: true
+  disable-sweep: true
+
+# Force a custom cooldown value
+cooldown:
+  enabled: true
+
+  # Cooldown stamina regeneration speed
+  speed: 256
+
+# Use custom knockback values
+knockback:
+  enabled: true
+
+  entities: true
+  players: true
+  projectiles: true
+
+  # Restores knockback from projectiles like snowballs and fishing rods
+  restore-projectiles: false
+
+  multiplier: 1.2
