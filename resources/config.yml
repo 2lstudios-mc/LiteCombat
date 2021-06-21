@@ -8,12 +8,12 @@ weapons:
 
 # Settings for Knockback
 knockback:
-  enabled: true
+  enabled: false
 
   entities: true
   players: true
 
   # Restores knockback from projectiles like snowballs and fishing rods
-  restore-projectiles: false
+  restore-projectiles: true
 
   multiplier: 1.0
