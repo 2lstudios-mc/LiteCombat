@@ -1,0 +1,9 @@
+name: LiteCombat
+main: dev._2lstudios.litecombat.LiteCombat
+version: 0.0.1
+author: 2LS
+api: "1.13"
+api-version: "1.13"
+commands:
+  litecombat:
+    description: The main LiteCombat command
