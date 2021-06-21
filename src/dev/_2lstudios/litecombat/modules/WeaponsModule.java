@@ -38,9 +38,11 @@ public class WeaponsModule implements Module {
     public void reload(final Configuration configuration) {
         final ConfigurationSection section = configuration.getConfigurationSection("weapons");
 
-        enabled = section.getBoolean("enabled", enabled);
-        oldDamage = section.getBoolean("old-damage", oldDamage);
-        disableSweep = section.getBoolean("disable-sweep", disableSweep);
+        if (section != null) {
+            enabled = section.getBoolean("enabled", enabled);
+            oldDamage = section.getBoolean("old-damage", oldDamage);
+            disableSweep = section.getBoolean("disable-sweep", disableSweep);
+        }
     }
 
     public double getOldDamage(final ItemStack itemStack, final double damage) {

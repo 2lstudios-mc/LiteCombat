@@ -15,6 +15,8 @@ public class PlayerJoinListener implements Listener {
 
     @EventHandler
     public void onPlayerJoin(final PlayerJoinEvent event) {
-        weaponsModule.resetSpeed(event.getPlayer());
+        if (weaponsModule.isEnabled()) {
+            weaponsModule.applySpeed(event.getPlayer());
+        }
     }
 }

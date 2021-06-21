@@ -14,7 +14,9 @@ public class PlayerQuitListener implements Listener {
   }
 
   @EventHandler
-  public void onPlayerJoin(final PlayerQuitEvent event) {
-    weaponsModule.applySpeed(event.getPlayer());
+  public void onPlayerQuit(final PlayerQuitEvent event) {
+    if (weaponsModule.isEnabled()) {
+      weaponsModule.resetSpeed(event.getPlayer());
+    }
   }
 }

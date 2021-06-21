@@ -1,6 +1,7 @@
 package dev._2lstudios.litecombat;
 
 import org.bukkit.configuration.Configuration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -16,7 +17,7 @@ public class LiteCombat extends JavaPlugin {
     public void onEnable() {
         final ConfigurationUtils configurationUtils = new ConfigurationUtils(this);
 
-        configurationUtils.create("%datafolder%/%config.yml", "config.yml");
+        configurationUtils.create("%datafolder%/config.yml", "config.yml");
 
         final Configuration configuration = configurationUtils.get("%datafoler%/config.yml");
         final KnockbackModule knockbackModule = new KnockbackModule();
@@ -30,5 +31,11 @@ public class LiteCombat extends JavaPlugin {
         pluginManager.registerEvents(new EntityDamageByEntityListener(knockbackModule, weaponsModule), this);
         pluginManager.registerEvents(new PlayerJoinListener(weaponsModule), this);
         pluginManager.registerEvents(new PlayerQuitListener(weaponsModule), this);
+
+        for (final Player player : getServer().getOnlinePlayers()) {
+            if (weaponsModule.isEnabled()) {
+                weaponsModule.applySpeed(player);
+            }
+        }
     }
 }

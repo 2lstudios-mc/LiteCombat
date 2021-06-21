@@ -14,12 +14,14 @@ public class KnockbackModule implements Module {
     private float multiplier = 1.0f;
 
     public void reload(final Configuration configuration) {
-        final ConfigurationSection section = configuration.getConfigurationSection("weapons");
+        final ConfigurationSection section = configuration.getConfigurationSection("knockback");
 
-        enabled = section.getBoolean("enabled", enabled);
-        entities = section.getBoolean("entities", entities);
-        players = section.getBoolean("players", players);
-        restoreProjectiles = section.getBoolean("restore-projectiles", restoreProjectiles);
+        if (section != null) {
+            enabled = section.getBoolean("enabled", enabled);
+            entities = section.getBoolean("entities", entities);
+            players = section.getBoolean("players", players);
+            restoreProjectiles = section.getBoolean("restore-projectiles", restoreProjectiles);
+        }
     }
 
     public Vector getVelocity(final Entity damaged, final Entity damager) {
