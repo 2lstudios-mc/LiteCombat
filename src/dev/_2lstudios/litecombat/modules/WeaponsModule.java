@@ -50,9 +50,9 @@ public class WeaponsModule implements Module {
             final Material material = itemStack.getType();
 
             if (this.axes.contains(material)) {
-                return damage - 3.0D;
+                return damage - 4.0D;
             } else if (this.spades.contains(material)) {
-                return damage - 0.5D;
+                return damage - 1.0D;
             }
         }
 
