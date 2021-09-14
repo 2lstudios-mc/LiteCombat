@@ -5,6 +5,7 @@ import org.bukkit.entity.Player;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import dev._2lstudios.litecombat.commands.LiteCombatCommandExecutor;
 import dev._2lstudios.litecombat.listeners.EntityDamageByEntityListener;
 import dev._2lstudios.litecombat.listeners.PlayerJoinListener;
 import dev._2lstudios.litecombat.listeners.PlayerQuitListener;
@@ -13,21 +14,25 @@ import dev._2lstudios.litecombat.modules.WeaponsModule;
 import dev._2lstudios.litecombat.utils.ConfigurationUtils;
 
 public class LiteCombat extends JavaPlugin {
+    private ConfigurationUtils configurationUtils;
     private KnockbackModule knockbackModule;
     private WeaponsModule weaponsModule;
 
-    @Override
-    public void onEnable() {
-        final ConfigurationUtils configurationUtils = new ConfigurationUtils(this);
-
-        configurationUtils.create("%datafolder%/config.yml", "config.yml");
-
+    public void reload() {
         final Configuration configuration = configurationUtils.get("%datafoler%/config.yml");
-        knockbackModule = new KnockbackModule();
-        weaponsModule = new WeaponsModule();
 
         knockbackModule.reload(configuration);
         weaponsModule.reload(configuration);
+    }
+
+    @Override
+    public void onEnable() {
+        configurationUtils = new ConfigurationUtils(this);
+        configurationUtils.create("%datafolder%/config.yml", "config.yml");
+        knockbackModule = new KnockbackModule();
+        weaponsModule = new WeaponsModule();
+
+        reload();
 
         final PluginManager pluginManager = getServer().getPluginManager();
 
@@ -40,13 +45,15 @@ public class LiteCombat extends JavaPlugin {
                 weaponsModule.applySpeed(player);
             }
         }
+
+        getCommand("litecombat").setExecutor(new LiteCombatCommandExecutor(this));
     }
 
     @Override
     public void onDisable() {
         if (weaponsModule.isEnabled()) {
             for (final Player player : getServer().getOnlinePlayers()) {
-                    weaponsModule.resetSpeed(player);
+                weaponsModule.resetSpeed(player);
             }
         }
     }
