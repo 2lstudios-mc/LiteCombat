@@ -13,6 +13,9 @@ import dev._2lstudios.litecombat.modules.WeaponsModule;
 import dev._2lstudios.litecombat.utils.ConfigurationUtils;
 
 public class LiteCombat extends JavaPlugin {
+    private KnockbackModule knockbackModule;
+    private WeaponsModule weaponsModule;
+
     @Override
     public void onEnable() {
         final ConfigurationUtils configurationUtils = new ConfigurationUtils(this);
@@ -20,8 +23,8 @@ public class LiteCombat extends JavaPlugin {
         configurationUtils.create("%datafolder%/config.yml", "config.yml");
 
         final Configuration configuration = configurationUtils.get("%datafoler%/config.yml");
-        final KnockbackModule knockbackModule = new KnockbackModule();
-        final WeaponsModule weaponsModule = new WeaponsModule();
+        knockbackModule = new KnockbackModule();
+        weaponsModule = new WeaponsModule();
 
         knockbackModule.reload(configuration);
         weaponsModule.reload(configuration);
@@ -32,9 +35,18 @@ public class LiteCombat extends JavaPlugin {
         pluginManager.registerEvents(new PlayerJoinListener(weaponsModule), this);
         pluginManager.registerEvents(new PlayerQuitListener(weaponsModule), this);
 
-        for (final Player player : getServer().getOnlinePlayers()) {
-            if (weaponsModule.isEnabled()) {
+        if (weaponsModule.isEnabled()) {
+            for (final Player player : getServer().getOnlinePlayers()) {
                 weaponsModule.applySpeed(player);
+            }
+        }
+    }
+
+    @Override
+    public void onDisable() {
+        if (weaponsModule.isEnabled()) {
+            for (final Player player : getServer().getOnlinePlayers()) {
+                    weaponsModule.resetSpeed(player);
             }
         }
     }
